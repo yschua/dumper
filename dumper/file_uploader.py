@@ -11,7 +11,8 @@ class FileUploader:
     
     def __init__(self):
         config = configparser.ConfigParser()
-        path = os.path.dirname(os.path.abspath(__file__)) + '\\..\\config.ini'
+        curr_path = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(curr_path, '..', 'config.ini')
         config.read(path)
 
         self._host = config['Server']['host']

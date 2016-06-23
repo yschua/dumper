@@ -10,7 +10,8 @@ class Dumper():
 
     @staticmethod
     def main():
-        path = os.path.dirname(os.path.abspath(__file__)) + '\\..\\dumper.log'
+        curr_path = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(curr_path, '..', 'dumper.log')
         
         logging.basicConfig(
             filename=path, 

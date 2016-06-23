@@ -12,10 +12,11 @@ class DirMonitor:
     
     def __init__(self):
         config = configparser.ConfigParser()
-        path = os.path.dirname(os.path.abspath(__file__)) + '\\..\\config.ini'
+        curr_path = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(curr_path, '..', 'config.ini')
         config.read(path)
 
-        self._path = config['Settings']['dump_dir']
+        self._dump_path = config['Settings']['dump_dir']
 
         self._uploader = FileUploader()
         
@@ -25,10 +26,10 @@ class DirMonitor:
         t.join()
 
     def _monitor(self):
-        logging.info('Monitoring \'{}\''.format(self._path))
+        logging.info('Monitoring \'{}\''.format(self._dump_path))
 
         h_dir = win32file.CreateFile(
-            self._path,
+            self._dump_path,
             winnt.FILE_LIST_DIRECTORY,
             win32con.FILE_SHARE_READ |
                 win32con.FILE_SHARE_WRITE |
@@ -49,6 +50,6 @@ class DirMonitor:
 
             for action, name in result:
                 if action == winnt.FILE_ACTION_ADDED:
-                    filepath = os.path.join(self._path, name)
+                    filepath = os.path.join(self._dump_path, name)
                     self._uploader.upload(filepath)
 
