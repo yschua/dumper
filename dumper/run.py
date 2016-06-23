@@ -1,8 +1,11 @@
 import logging
 import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from dumper.dir_monitor import DirMonitor
-
+    
 class Dumper():
 
     @staticmethod
