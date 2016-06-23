@@ -12,11 +12,10 @@ class DirMonitor:
     
     def __init__(self):
         config = configparser.ConfigParser()
-        curr_path = os.path.dirname(os.path.abspath(__file__))
-        config.read(curr_path + '\\..\\config.ini')
+        path = os.path.dirname(os.path.abspath(__file__)) + '\\..\\config.ini'
+        config.read(path)
 
         self._path = config['Settings']['dump_dir']
-        logging.info('configed')
 
         self._uploader = FileUploader()
         

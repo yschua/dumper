@@ -28,21 +28,5 @@ class DumperSvc(win32serviceutil.ServiceFramework):
     def main(self):
         Dumper.main()
 
-        #f = open('test.dat', 'w+')
-        #rc = None
-        
-        #while rc != win32event.WAIT_OBJECT_0:
-        #    f.write('TEST DATA\n')
-        #    f.flush()
-        #    rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)
-            
-        #f.write('SHUTTING DOWN\n')
-        #f.close()
-
 if __name__ == '__main__':
-    #path = os.path.dirname(os.path.abspath(__file__))
-    #sys.path.append(path)
-    #with open('path.txt', 'w') as f:
-    #    f.write(path)
-
     win32serviceutil.HandleCommandLine(DumperSvc)
