@@ -21,7 +21,7 @@ class Dumper():
         logging.info('Starting dumper')
 
         monitor = DirMonitor()
-        monitor.run()
+        monitor.start()
 
 if __name__ == '__main__':
     Dumper.main()
