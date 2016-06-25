@@ -1,4 +1,5 @@
 ﻿import os
+import logging
 
 import win32file
 import win32con
@@ -6,20 +7,13 @@ import win32event
 import pywintypes
 import winnt
 
-import logging
-import configparser
-
 from threading import Thread
 from dumper.file_uploader import FileUploader
 
 class DirMonitor(Thread):
     
-    def __init__(self):
+    def __init__(self, config):
         Thread.__init__(self)
-
-        config = configparser.ConfigParser()
-        curr_path = os.path.dirname(os.path.abspath(__file__))
-        config.read(os.path.join(curr_path, '..', 'config.ini'))
 
         self._path = config['Settings']['dump_dir']
         self._buffer = win32file.AllocateReadBuffer(1024)
@@ -28,7 +22,7 @@ class DirMonitor(Thread):
         self._overlapped.object = self._path
         self._stop_event = win32event.CreateEvent(None, True, 0, None)
 
-        self._uploader = FileUploader() # pass config to FileUploader
+        self._uploader = FileUploader(config)
 
     def __del__(self):
         self._stop()

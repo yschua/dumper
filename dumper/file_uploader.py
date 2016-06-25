@@ -1,20 +1,12 @@
 ﻿import ftplib
 import ntpath
 import logging
-import configparser
-import win32clipboard
 import urllib.parse
-
-import os
+import win32clipboard
 
 class FileUploader:
     
-    def __init__(self):
-        config = configparser.ConfigParser()
-        curr_path = os.path.dirname(os.path.abspath(__file__))
-        path = os.path.join(curr_path, '..', 'config.ini')
-        config.read(path)
-
+    def __init__(self, config):
         self._host = config['Server']['host']
         self._user = config['Server']['user']
         self._passwd = config['Server']['password']
