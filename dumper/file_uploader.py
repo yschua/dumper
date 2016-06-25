@@ -12,6 +12,7 @@ class FileUploader:
         self._passwd = config['Server']['password']
         self._path = config['Server']['remote_path']
         self._url = config['Server']['url']
+        self._copy_url = config.getboolean('Settings', 'copy_url_to_clipboard')
 
         # test ftp login
 
@@ -24,12 +25,13 @@ class FileUploader:
                 msg = ftp.storbinary('STOR ' + name, open(filepath, 'rb'))
                 logging.info(msg)
 
-            self._copy_to_clipboard(name)
+            if self._copy_url:
+                self._copy_to_clipboard(name)
         except ftplib.all_errors as e:
             logging.exception(e, exc_info=False)
     
     def _copy_to_clipboard(self, name):
-        url = self._url + urllib.parse.quote(name)
+        url = urllib.parse.urljoin(self._url, urllib.parse.quote(name))
         win32clipboard.OpenClipboard()
         win32clipboard.EmptyClipboard()
         win32clipboard.SetClipboardText(url)
