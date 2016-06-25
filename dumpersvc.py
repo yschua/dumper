@@ -1,7 +1,4 @@
-﻿import sys
-import os
-import logging
-import time
+﻿import logging
 
 import win32service
 import win32serviceutil
