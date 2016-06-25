@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import configparser
 import logging
 
@@ -10,19 +11,32 @@ from dumper.dir_monitor import DirMonitor
     
 class Dumper():
 
-    @staticmethod
-    def main():
-        config = configparser.ConfigParser()
-        config.read(os.path.join(path, '..', 'config.ini'))
+    def __init__(self):
+        self.config = configparser.ConfigParser()
+        self.config.read(os.path.join(path, '..', 'config.ini'))
 
         logging.basicConfig(
             filename=os.path.join(path, '..', 'dumper.log'), 
             level=logging.INFO,
             format='[%(asctime)s] %(message)s')
-        logging.info('Starting dumper')
 
-        monitor = DirMonitor(config)
+    def run_service(self):
+        pass
+
+    def run_script(self):
+        monitor = DirMonitor(self.config)
         monitor.start()
+        logging.info('Dumper script started')
+
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            monitor.stop()
+            monitor.join()
+            logging.info('Dumper script stopped')
+            sys.exit()
 
 if __name__ == '__main__':
-    Dumper.main()
+    dumper = Dumper()
+    dumper.run_script()
