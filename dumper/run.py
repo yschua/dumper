@@ -20,13 +20,13 @@ class Dumper():
             level=logging.INFO,
             format='[%(asctime)s] %(message)s')
 
-    def run_service(self):
-        pass
+    def get_monitor(self):
+        return DirMonitor(self.config)
 
     def run_script(self):
+        logging.info('SCRIPT started')
         monitor = DirMonitor(self.config)
         monitor.start()
-        logging.info('Dumper script started')
 
         try:
             while True:
@@ -34,7 +34,7 @@ class Dumper():
         except KeyboardInterrupt:
             monitor.stop()
             monitor.join()
-            logging.info('Dumper script stopped')
+            logging.info('SCRIPT stopped')
             sys.exit()
 
 if __name__ == '__main__':
