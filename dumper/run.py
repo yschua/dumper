@@ -23,7 +23,6 @@ class Dumper():
     def get_monitor(self):
         return DirMonitor(self.config)
 
-
     def run_script(self):
         logging.info('SCRIPT started')
         monitor = DirMonitor(self.config)
