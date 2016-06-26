@@ -15,6 +15,8 @@ class DirMonitor(Thread):
     def __init__(self, config):
         Thread.__init__(self)
 
+        self._max_size = int(config['Settings']['max_file_size']) * 1024
+
         self._path = config['Settings']['dump_dir']
         self._buffer = win32file.AllocateReadBuffer(1024)
         self._overlapped = pywintypes.OVERLAPPED()
@@ -73,6 +75,8 @@ class DirMonitor(Thread):
             result = win32file.FILE_NOTIFY_INFORMATION(self._buffer, bytes)
 
             for action, name in result:
-                if action == winnt.FILE_ACTION_ADDED:
-                    self._uploader.upload(os.path.join(self._path, name))
+                filepath = os.path.join(self._path, name)
+                if (action == winnt.FILE_ACTION_ADDED and
+                        os.path.getsize(filepath) <= self._max_size):
+                    self._uploader.upload(filepath)
                     self._async_watch()
