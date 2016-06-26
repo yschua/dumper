@@ -79,4 +79,6 @@ class DirMonitor(Thread):
                 if (action == winnt.FILE_ACTION_ADDED and
                         os.path.getsize(filepath) <= self._max_size):
                     self._uploader.upload(filepath)
-                    self._async_watch()
+            
+            win32event.ResetEvent(self._overlapped.hEvent)
+            self._async_watch()

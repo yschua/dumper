@@ -17,11 +17,12 @@ class Dumper():
 
         logging.basicConfig(
             filename=os.path.join(path, '..', 'dumper.log'), 
-            level=logging.INFO,
+            level=logging.DEBUG,
             format='[%(asctime)s] %(message)s')
 
     def get_monitor(self):
         return DirMonitor(self.config)
+
 
     def run_script(self):
         logging.info('SCRIPT started')
